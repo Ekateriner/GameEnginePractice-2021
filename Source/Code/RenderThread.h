@@ -1,0 +1,69 @@
+#pragma once
+
+#include <thread>
+#include <condition_variable>
+#include <mutex>
+#include <functional>
+
+#include "ProjectDefines.h"
+#include "MTQueue.hpp"
+
+
+class RenderEngine;
+class RenderNode;
+
+//enum RenderCommand : UINT32
+//{
+//	eRC_Unknown = 0,
+//	eRC_Init,
+//	eRC_SetupDefaultCamera,
+//	eRC_SetupDefaultCompositor,
+//	eRC_LoadDefaultResources,
+//	eRC_SetupDefaultLight,
+//	eRC_BeginFrame,
+//	eRC_CreateSceneNode,
+//	eRC_EndFrame
+//};
+
+class RenderThread
+{
+public:
+	RenderThread(RenderEngine* pRenderEngine);
+	~RenderThread();
+
+	void Start();
+	void Run();
+
+	void RC_Init();
+	void RC_SetupDefaultCamera();
+	void RC_SetupDefaultCompositor();
+	void RC_LoadDefaultResources();
+	void RC_SetupDefaultLight();
+	void RC_BeginFrame();
+	void RC_EndFrame();
+	void RC_CreateSceneNode(RenderNode* pRenderNode);
+
+private:
+	threadID m_nRenderThreadId;
+	threadID m_nMainThreadId;
+
+	volatile UINT32 m_nFlush;
+
+	std::unique_ptr<std::thread> m_pThread;
+
+	RenderEngine* m_pRenderEngine;
+
+	MTQueue<std::function<void(void)>> m_Commands;
+
+	//inline void AddCommand();
+	bool IsRenderThread();
+	void ProcessCommands();
+
+	inline bool CheckFlushCond();
+	inline void SignalMainThread();
+	inline void SignalRenderThread();
+	void WaitForMainThreadSignal();
+	void WaitForRenderThreadSignal();
+	void SyncMainWithRender();
+};
+
