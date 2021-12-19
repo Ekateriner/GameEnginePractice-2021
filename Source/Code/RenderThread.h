@@ -3,6 +3,7 @@
 #include <thread>
 #include <condition_variable>
 #include <mutex>
+#include <atomic>
 #include <functional>
 
 #include "ProjectDefines.h"
@@ -47,7 +48,7 @@ private:
 	threadID m_nRenderThreadId;
 	threadID m_nMainThreadId;
 
-	volatile UINT32 m_nFlush;
+	std::atomic<UINT32> m_nFlush;
 
 	std::unique_ptr<std::thread> m_pThread;
 

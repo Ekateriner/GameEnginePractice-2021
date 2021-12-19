@@ -1,35 +1,43 @@
 #include "JobSystem.h"
-#include "../cppcoro/schedule_on.hpp"
-#include "../cppcoro/when_all.hpp"
+#include <cppcoro/schedule_on.hpp>
+#include <cppcoro/when_all.hpp>
 
 JobSystem::JobSystem() :
-	thead_pool() {}
+	thread_pool() {}
 
-JobSystem::JobSystem(int thread_count) :
-	thead_pool(thread_count) {}
+JobSystem::JobSystem(size_t thread_count) :
+	thread_pool(thread_count) {}
 
 JobSystem::~JobSystem() {
 
 };
 
-cppcoro::task<> JobSystem::AddTask(std::function<void()>& new_task) {
-	co_await cppcoro::schedule_on(thead_pool, new_task());
+cppcoro::task<> JobSystem::ScheduleTask(std::function<void()>& new_task) {
+	co_await thread_pool.schedule();
+	new_task();
 }
 
-//cppcoro::task<> JobSystem::AddTask(std::function<void()>& new_task) {
-//	co_await thread_pool.schedule();
+//cppcoro::task<> JobSystem::ScheduleTasks(std::vector<cppcoro::task<>>& new_task) {
+//	return cppcoro::schedule_on(thread_pool);
 //	new_task();
 //}
 
-cppcoro::task<> JobSystem::AddMultipleTasks(std::vector<std::function<void()>>& new_tasks) {
-	std::vector<cppcoro::task<>> tasks;
-	for (auto & new_task : new_tasks) {
-		tasks.emplace_back(new_task());
+cppcoro::async_scope JobSystem::AddMultipleTasks(std::vector<std::function<cppcoro::task<>()>>& new_tasks) {
+	std::vector<cppcoro::task<>> temp;
+	for (auto& task : new_tasks) {
+		temp.emplace_back(co_await cppcoro::schedule_on(thread_pool, task()));
 	}
-	co_await cppcoro::schedule_on(thead_pool, tasks);
-
+	cppcoro::async_scope scope;
+	scope.spawn(temp);
+	co_return scope;
 }
 
-cppcoro::task<> JobSystem::WaitTasks(std::vector<cppcoro::task<>>& tasks) {
-	co_return when_all(tasks);
+cppcoro::async_scope JobSystem::AddTask(cppcoro::task<>& new_task) {
+	cppcoro::async_scope scope;
+	scope.spawn(co_await cppcoro::schedule_on(thread_pool, new_task));
+	co_return scope;
+}
+
+void JobSystem::WaitTasks(cppcoro::async_scope& scope) {
+	scope.join();
 }

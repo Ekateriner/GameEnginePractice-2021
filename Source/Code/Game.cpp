@@ -69,3 +69,8 @@ bool Game::Update()
 	m_pEcs->progress();
 	return !m_pRenderEngine->GetQuit();
 }
+
+bool Game::GetQuit()
+{
+	return m_pRenderEngine->GetQuit();
+}

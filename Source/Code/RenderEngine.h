@@ -10,17 +10,23 @@
 #include "Compositor/OgreCompositorManager2.h"
 
 #include "RenderSystems/Direct3D11/OgreD3D11Plugin.h"
+//#include "RenderSystems/GL3Plus/OgreGL3PlusPlugin.h"
 
 #include "RenderThread.h"
 #include "RenderNode.h"
 #include "ResourceManager.h"
-//#include "JobSystem/JobSystem.h"
+
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <cppcoro/static_thread_pool.hpp>
 
 class RenderEngine
 {
 	friend class RenderThread;
 
 public:
+	//const bool m_UseGUI;
+
 	RenderEngine(ResourceManager* pResourceManager);
 	~RenderEngine();
 	RenderEngine(const RenderEngine&) = delete;
@@ -50,13 +56,17 @@ private:
 	Ogre::SceneManager* m_pSceneManager;
 	Ogre::Camera* m_pCamera;
 	Ogre::CompositorWorkspace* m_pWorkspace;
+	
 	Ogre::D3D11Plugin* m_pD3D11Plugin;
+	//Ogre::GL3PlusPlugin* m_pGL3PlusPlugin;
 
 	RenderThread* m_pRT;
 	ResourceManager* m_pResourceManager;
-	//JobSystem* m_pJobSystem;
+	cppcoro::static_thread_pool* m_pJobSystem;
 
 	std::vector<RenderNode*> m_RenderNodes;
+	SDL_Window* m_SDL_Window;
+	SDL_GLContext m_GL_Context;
 
 	bool m_bQuit;
 };

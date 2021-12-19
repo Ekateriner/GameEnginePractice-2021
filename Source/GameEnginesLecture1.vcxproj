@@ -79,15 +79,26 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml;$(SolutionDir)\..\SDKs\cppcoro\include\;$(SolutionDir)\..\SDKs\SDL2-2.0.18\include;</IncludePath>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Bin\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
+    <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
+    <SourcePath>$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml</IncludePath>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Bin\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>false</VcpkgEnabled>
+    <VcpkgManifestInstall>false</VcpkgManifestInstall>
+    <VcpkgAutoLink>false</VcpkgAutoLink>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>false</VcpkgUseStatic>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,8 +143,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\..\SDKs\Ogre\lib\Debug;$(SolutionDir)\..\SDKs\lua\lib\;$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);OgreMain_d.lib;RenderSystem_Direct3D11_d.lib;OgreHlmsPbs_d.lib;OgreHlmsUnlit_d.lib;OgreMeshLodGenerator_d.lib;OgreSceneFormat_d.lib;lua54.lib;tinyxml.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\..\SDKs\Ogre\lib\Debug;$(SolutionDir)\..\SDKs\lua\lib\;$(SolutionDir)\Bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\SDKs\cppcoro\build\windows_x64_msvc15_debug\lib;$(SolutionDir)\..\SDKs\SDL2-2.0.18\lib\x64\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);OgreMain_d.lib;RenderSystem_Direct3D11_d.lib;OgreHlmsPbs_d.lib;OgreHlmsUnlit_d.lib;OgreMeshLodGenerator_d.lib;OgreSceneFormat_d.lib;lua54.lib;tinyxml.lib;SDL2.lib</AdditionalDependencies>
+      <PerUserRedirection>true</PerUserRedirection>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)\..\SDKs\Ogre\bin\Debug $(TargetDir)
@@ -194,6 +206,12 @@ xcopy /y $(SolutionDir)\..\SDKs\lua\bin $(TargetDir)</Command>
     <ClInclude Include="Code\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_auto_reset_event.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\auto_reset_event.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\spin_mutex.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\spin_wait.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\win32.cpp" />
     <ClCompile Include="Code\ECS\ecsControl.cpp" />
     <ClCompile Include="Code\ECS\ecsMesh.cpp" />
     <ClCompile Include="Code\ECS\ecsPhys.cpp" />
@@ -207,7 +225,7 @@ xcopy /y $(SolutionDir)\..\SDKs\lua\bin $(TargetDir)</Command>
     <ClCompile Include="Code\GameTimer.cpp" />
     <ClCompile Include="Code\Input\InputHandler.cpp" />
     <ClCompile Include="Code\LoadingSystem\LoadingSystem.cpp" />
-    <ClCompile Include="Code\Main.cpp" />
+    <ClCompile Include="Code\MainEngine.cpp" />
     <ClCompile Include="Code\RenderEngine.cpp" />
     <ClCompile Include="Code\RenderNode.cpp" />
     <ClCompile Include="Code\RenderThread.cpp" />
@@ -221,6 +239,4 @@ xcopy /y $(SolutionDir)\..\SDKs\lua\bin $(TargetDir)</Command>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
 </Project>

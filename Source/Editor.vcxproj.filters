@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\imgui">
+      <UniqueIdentifier>{bf244543-d305-4059-8890-974a18e98d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\cppcoro">
+      <UniqueIdentifier>{21a4599c-0c7a-4156-ba57-f4e740aa5a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\engine">
+      <UniqueIdentifier>{94095c0b-1ef0-4f6a-a5ab-ab81ef62e66e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\imgui\backends">
+      <UniqueIdentifier>{09abc7b2-44f6-401d-b09e-e5a891411214}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Editor\Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\imconfig.h">
+      <Filter>Resource Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\imgui.h">
+      <Filter>Resource Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\imgui_internal.h">
+      <Filter>Resource Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\imstb_rectpack.h">
+      <Filter>Resource Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\imstb_textedit.h">
+      <Filter>Resource Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\imstb_truetype.h">
+      <Filter>Resource Files\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>Resource Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>Resource Files\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDKs\imgui\backends\imgui_impl_sdl.h">
+      <Filter>Resource Files\imgui\backends</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Editor\Editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\MainEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_auto_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\auto_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\spin_mutex.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\spin_wait.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\win32.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\EntityManager.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Game.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GameTimer.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderEngine.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderNode.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderThread.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ResourceManager.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ECS\ecsControl.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ECS\ecsMesh.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ECS\ecsPhys.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ECS\ecsScript.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ECS\ecsStatic.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\FileSystem\FileSystem.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\FileSystem\GEFile.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\FileSystem\IOWrapper.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Input\InputHandler.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\LoadingSystem\LoadingSystem.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ScriptSystem\ScriptNode.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ScriptSystem\ScriptSystem.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\imgui\imgui.cpp">
+      <Filter>Resource Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\imgui\imgui_demo.cpp">
+      <Filter>Resource Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\imgui\imgui_draw.cpp">
+      <Filter>Resource Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\imgui\imgui_tables.cpp">
+      <Filter>Resource Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\imgui\imgui_widgets.cpp">
+      <Filter>Resource Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>Resource Files\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\imgui\backends\imgui_impl_sdl.cpp">
+      <Filter>Resource Files\imgui\backends</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\cppcoro">
+      <UniqueIdentifier>{bf0b7fa0-e3e8-4e79-b567-1f5050bbf912}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\framework.h">
@@ -98,7 +101,7 @@
     <ClCompile Include="Code\GameTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Main.cpp">
+    <ClCompile Include="Code\MainEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Code\RenderEngine.cpp">
@@ -151,6 +154,24 @@
     </ClCompile>
     <ClCompile Include="Code\ECS\ecsStatic.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\spin_mutex.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\spin_wait.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\auto_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\win32.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_auto_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

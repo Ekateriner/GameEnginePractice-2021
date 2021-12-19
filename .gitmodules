@@ -13,3 +13,9 @@
 [submodule "SDKs/optick"]
 	path = SDKs/optick
 	url = git@github.com:bombomby/optick.git
+[submodule "SDKs/cppcoro"]
+	path = SDKs/cppcoro
+	url = https://github.com/lewissbaker/cppcoro.git
+[submodule "SDKs/imgui"]
+	path = SDKs/imgui
+	url = https://github.com/ocornut/imgui.git

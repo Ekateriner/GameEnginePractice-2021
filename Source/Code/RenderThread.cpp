@@ -18,11 +18,11 @@ RenderThread::RenderThread(RenderEngine* pRenderEngine) :
 	m_nRenderThreadId(0),
 	//m_nCurrentFrame(0),
 	//m_nFrameFill(1),
-	m_nFlush(0),
+	//m_nFlush(0),
 	m_pThread(nullptr)
 {
 	m_nMainThreadId = ::GetCurrentThreadId();
-
+	m_nFlush.store(0);
 	m_Commands.clear();
 }
 
@@ -77,19 +77,19 @@ bool RenderThread::IsRenderThread()
 
 bool RenderThread::CheckFlushCond()
 {
-	return *(int*)&m_nFlush != 0;
+	return m_nFlush.load();
 }
 
 // Signal main thread, that he can continue his work
 void RenderThread::SignalMainThread()
 {
-	m_nFlush = 0;
+	m_nFlush.store(0);
 }
 
 // Signal render thread, that he can continue his work
 void RenderThread::SignalRenderThread()
 {
-	m_nFlush = 1;
+	m_nFlush.store(1);
 }
 
 // Process commands that render thread received from main thread
@@ -199,7 +199,7 @@ void RenderThread::WaitForMainThreadSignal()
 {
 	assert(IsRenderThread());
 
-	while (!m_nFlush && !m_pRenderEngine->GetQuit())
+	while (!m_nFlush.load() && !m_pRenderEngine->GetQuit())
 	{
 	}
 }
@@ -209,7 +209,7 @@ void RenderThread::WaitForRenderThreadSignal()
 {
 	assert(!IsRenderThread());
 
-	while (m_nFlush && !m_pRenderEngine->GetQuit())
+	while (m_nFlush.load() && !m_pRenderEngine->GetQuit())
 	{
 	}
 }
