@@ -8,7 +8,7 @@
 void register_ecs_control_systems(flecs::world* ecs)
 {
 	static auto inputQuery = ecs->query<InputHandlerPtr>();
-	ecs->system<const Controllable, ScriptNodeComponent, CameraPosition>()
+	ecs->system<const Controllable, ScriptNodeComponent, CameraPosition>().kind(flecs::PreUpdate)
 		.each([&](flecs::entity e, const Controllable&, ScriptNodeComponent& scriptNode, CameraPosition& cameraPos)
 			{
 				Ogre::Vector3 vCameraPosition = scriptNode.ptr->GetCameraPosition();
@@ -17,7 +17,7 @@ void register_ecs_control_systems(flecs::world* ecs)
 				cameraPos.z = vCameraPosition.z;
 			});
 
-	ecs->system<const Controllable, ScriptNodeComponent, Position>()
+	ecs->system<const Controllable, ScriptNodeComponent, Position>().kind(flecs::PreUpdate)
 		.each([&](flecs::entity e, const Controllable&, ScriptNodeComponent& scriptNode, Position& pos)
 			{
 				Ogre::Vector3 vPosition = scriptNode.ptr->GetPosition();
@@ -26,7 +26,7 @@ void register_ecs_control_systems(flecs::world* ecs)
 				pos.z = vPosition.z;
 			});
 
-	ecs->system<const Controllable, ScriptNodeComponent, Scale>()
+	ecs->system<const Controllable, ScriptNodeComponent, Scale>().kind(flecs::PreUpdate)
 		.each([&](flecs::entity e, const Controllable&, ScriptNodeComponent& scriptNode, Scale& scal)
 	{
 		Ogre::Vector3 vScale = scriptNode.ptr->GetScale();
@@ -36,7 +36,7 @@ void register_ecs_control_systems(flecs::world* ecs)
 	});
 
 
-	ecs->system<ScriptNodeComponent, Orientation>()
+	ecs->system<ScriptNodeComponent, Orientation>().kind(flecs::PreUpdate)
 		.each([&](flecs::entity e, ScriptNodeComponent& scriptNode, Orientation& orient)
 			{
 				Ogre::Quaternion orientation = scriptNode.ptr->GetOrientation();

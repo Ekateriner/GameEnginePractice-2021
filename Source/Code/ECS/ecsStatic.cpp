@@ -4,6 +4,7 @@
 #include "ecsPhys.h"
 #include "flecs.h"
 #include "../Input/InputHandler.h"
+#include "../RenderNode.h"
 
 void register_ecs_static_systems(flecs::world* ecs)
 {

@@ -93,6 +93,9 @@
     <ClInclude Include="Code\MTQueue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Code\ECS\ecsLoad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Game.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="..\SDKs\cppcoro\lib\async_auto_reset_event.cpp">
       <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ECS\ecsLoad.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

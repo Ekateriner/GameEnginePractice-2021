@@ -24,10 +24,12 @@ public:
 	void Quit();
 	std::unordered_map<uint32_t, Entity> GetEntities();
 	RenderEngine* GetRE();
+	void UpdatePhysics(bool flag);
 
 private:
 	GameTimer m_Timer;
 	flecs::world* m_pEcs;
+	std::atomic<bool> physics_fl = true;
 
 	RenderEngine* m_pRenderEngine;
 	FileSystem* m_pFileSystem;

@@ -3,7 +3,7 @@
 #include <string>
 
 #include "../Input/InputHandler.h"
-#include "../RenderNode.h"
+//#include "../RenderNode.h"
 
 #include "LuaBridge.h"
 #include "flecs.h"

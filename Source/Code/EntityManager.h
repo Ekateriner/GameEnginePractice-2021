@@ -2,6 +2,7 @@
 
 #include "ScriptSystem/ScriptSystem.h"
 #include "LoadingSystem/LoadingSystem.h"
+#include "RenderNode.h"
 #include "string.h"
 
 struct EntityInfo

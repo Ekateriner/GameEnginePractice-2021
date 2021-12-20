@@ -61,9 +61,16 @@ private:
 		} Add;
 
 		struct {
+			bool play = false;
+			bool exp = false;
+			std::string file_path;
+		} GameField;
+
+		struct {
 			bool active;
 			std::unordered_map<uint32_t, Object> objects;
 		} Objects;
+
 	} ImGuiState;
 	
 	Game* m_pGame;

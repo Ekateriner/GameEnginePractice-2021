@@ -2,7 +2,7 @@ Entity = {
     Properties = {
         Controllable = 1,
         HasPhysics = 0,
-		IsStatic = 0,
+	IsStatic = 0,
     },
     
     Parameters = {

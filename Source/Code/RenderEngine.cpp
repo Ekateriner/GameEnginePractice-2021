@@ -81,8 +81,8 @@ void RenderEngine::Update()
 	Ogre::WindowEventUtilities::messagePump();
 
 	for (auto up_info : UpdateQueue.get_queue()) {
-		//up_info.pRenderNode->SetPosition(up_info.new_position);
-		//up_info.pRenderNode->SetScale(up_info.new_scale);
+		up_info.pRenderNode->SetPosition(up_info.new_position);
+		up_info.pRenderNode->SetScale(up_info.new_scale);
 	}
 
 	for (RenderNode* pRenderNode : m_RenderNodes)

@@ -170,5 +170,8 @@
     <ClCompile Include="..\SDKs\gl3w\src\gl3w.c">
       <Filter>Resource Files\gl3w</Filter>
     </ClCompile>
+    <ClCompile Include="Code\ECS\ecsLoad.cpp">
+      <Filter>Resource Files\engine</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

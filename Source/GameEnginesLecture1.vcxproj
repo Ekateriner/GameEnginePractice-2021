@@ -182,6 +182,7 @@ xcopy /y $(SolutionDir)\..\SDKs\lua\bin $(TargetDir)</Command>
     <ClInclude Include="Code\ECS\ecsControl.h" />
     <ClInclude Include="Code\ECS\ecsMesh.h" />
     <ClInclude Include="Code\ECS\ecsPhys.h" />
+    <ClInclude Include="Code\ECS\ecsLoad.h" />
     <ClInclude Include="Code\ECS\ecsScript.h" />
     <ClInclude Include="Code\ECS\ecsSystems.h" />
     <ClInclude Include="Code\EntityManager.h" />
@@ -213,6 +214,7 @@ xcopy /y $(SolutionDir)\..\SDKs\lua\bin $(TargetDir)</Command>
     <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\win32.cpp" />
     <ClCompile Include="Code\ECS\ecsControl.cpp" />
+    <ClCompile Include="Code\ECS\ecsLoad.cpp" />
     <ClCompile Include="Code\ECS\ecsMesh.cpp" />
     <ClCompile Include="Code\ECS\ecsPhys.cpp" />
     <ClCompile Include="Code\ECS\ecsScript.cpp" />

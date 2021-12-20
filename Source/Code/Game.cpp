@@ -3,6 +3,7 @@
 #include "ECS/ecsSystems.h"
 #include "ECS/ecsPhys.h"
 #include "ECS/ecsControl.h"
+#include "ECS/ecsLoad.h"
 #include <stdlib.h>
 
 Game::Game()
@@ -30,6 +31,11 @@ Game::Game()
 	register_ecs_phys_systems(m_pEcs);
 	register_ecs_script_systems(m_pEcs);
 	register_ecs_static_systems(m_pEcs);
+	
+	m_pEcs->progress();
+	//m_pEcs->progress();
+
+	register_ecs_load_systems(m_pEcs);
 }
 
 Game::~Game()
@@ -66,7 +72,8 @@ void Game::Run()
 
 bool Game::Update()
 {
-	m_pEcs->progress();
+	if (physics_fl.load())
+		m_pEcs->progress();
 	return !m_pRenderEngine->GetQuit();
 }
 
@@ -86,4 +93,8 @@ std::unordered_map<uint32_t, Entity> Game::GetEntities() {
 
 RenderEngine* Game::GetRE() {
 	return m_pRenderEngine;
+}
+
+void Game::UpdatePhysics(bool flag) {
+	physics_fl.store(flag);
 }

@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\cppcoro\include\;$(SolutionDir)\..\SDKs\SDL2-2.0.18\include;$(SolutionDir)\..\SDKs\imgui;$(SolutionDir)\..\SDKs\imgui\backends;$(SolutionDir)\Source\Code;$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml;$(SolutionDir)\..\SDKs\gl3w\include;$(SolutionDir)\..\SDKs\gl3w\src</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\cppcoro\include\;$(SolutionDir)\..\SDKs\SDL2-2.0.18\include;$(SolutionDir)\..\SDKs\imgui;$(SolutionDir)\..\SDKs\imgui\backends;$(SolutionDir)\Source\Code;$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml;$(SolutionDir)\..\SDKs\gl3w\include;$(SolutionDir)\..\SDKs\gl3w\src;$(SolutionDir)\Code\</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Bin\$(Platform)\$(Configuration)\</IntDir>
@@ -181,6 +181,7 @@
     <ClCompile Include="Code\ECS\ecsControl.cpp" />
     <ClCompile Include="Code\ECS\ecsMesh.cpp" />
     <ClCompile Include="Code\ECS\ecsPhys.cpp" />
+    <ClCompile Include="Code\ECS\ecsLoad.cpp" />
     <ClCompile Include="Code\ECS\ecsScript.cpp" />
     <ClCompile Include="Code\ECS\ecsStatic.cpp" />
     <ClCompile Include="Code\EntityManager.cpp" />

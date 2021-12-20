@@ -8,7 +8,7 @@ static float rand_flt(float from, float to)
 
 void register_ecs_phys_systems(flecs::world* ecs)
 {
-	ecs->system<Velocity, const Gravity, BouncePlane*, Position*>()
+	ecs->system<Velocity, const Gravity, BouncePlane*, Position*>().kind(flecs::OnUpdate)
 		.each([&](flecs::entity e, Velocity& vel, const Gravity& grav, BouncePlane* plane, Position* pos)
 			{
 				if (plane && pos)
@@ -22,7 +22,7 @@ void register_ecs_phys_systems(flecs::world* ecs)
 			});
 
 
-	ecs->system<Velocity, Position, const BouncePlane, const Bounciness>()
+	ecs->system<Velocity, Position, const BouncePlane, const Bounciness>().kind(flecs::OnUpdate)
 		.each([&](Velocity& vel, Position& pos, const BouncePlane& plane, const Bounciness& bounciness)
 			{
 				Ogre::Vector3 planeNorm(plane.x, plane.y, plane.z);
@@ -35,21 +35,21 @@ void register_ecs_phys_systems(flecs::world* ecs)
 			});
 
 
-	ecs->system<Velocity, const FrictionAmount>()
+	ecs->system<Velocity, const FrictionAmount>().kind(flecs::OnUpdate)
 		.each([&](flecs::entity e, Velocity& vel, const FrictionAmount& friction)
 			{
 				vel -= vel * friction.val * e.delta_time();
 			});
 
 
-	ecs->system<Position, const Velocity>()
+	ecs->system<Position, const Velocity>().kind(flecs::OnUpdate)
 		.each([&](flecs::entity e, Position& pos, const Velocity& vel)
 			{
 				pos += vel * e.delta_time();
 			});
 
 
-	ecs->system<Position, const ShiverAmount>()
+	ecs->system<Position, const ShiverAmount>().kind(flecs::OnUpdate)
 		.each([&](flecs::entity e, Position& pos, const ShiverAmount& shiver)
 			{
 				pos.x += rand_flt(-shiver.val, shiver.val);

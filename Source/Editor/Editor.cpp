@@ -84,6 +84,7 @@ void Editor::Run() {
 	m_pGameThread = std::unique_ptr<std::thread>(new std::thread(&Game::Run, m_pGame));
 	while (!m_Quit)
 	{
+		m_pGame->UpdatePhysics(ImGuiState.GameField.play);
 		Update();
 	}
 	m_pGameThread->join();
@@ -128,6 +129,24 @@ void Editor::ImGuiWindow() {
 			}
 			if (ImGui::MenuItem("Objects window", "Ctrl+I")) {
 				ImGuiState.Objects.active = true;
+			}
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Game"))
+		{
+			if (!ImGuiState.GameField.play) {
+				if (ImGui::MenuItem("Play", "Ctrl+P")) {
+					ImGuiState.GameField.play = true;
+				}
+			}
+			else {
+				if (ImGui::MenuItem("Stop", "Ctrl+P")) {
+					ImGuiState.GameField.play = false;
+				}
+			}
+			if (ImGui::MenuItem("Export", "Ctrl+E")) {
+				ImGuiState.GameField.exp = true;
 			}
 			ImGui::EndMenu();
 		}
@@ -203,6 +222,24 @@ void Editor::ImGuiWindow() {
 		ImGui::End();
 	}
 
+	if (ImGuiState.GameField.exp) {
+		ImGui::Begin("Export", &ImGuiState.GameField.exp, ImGuiWindowFlags_MenuBar);
+
+		ImGuiState.GameField.file_path.resize(100);
+		ImGui::InputText("Path to file", ImGuiState.GameField.file_path.data(), ImGuiState.GameField.file_path.size());
+
+		bool fl = false;
+		if (ImGui::Button("Add")) {
+			fl = ImGuiState.GameField.file_path.empty();
+		}
+		if (!fl) {
+			//Check Open and Open
+			ImGuiState.GameField.exp = false;
+		}
+
+		ImGui::End();
+	}
+
 	//ImGui::SetNextWindowSize(ImVec2(430, 450), ImGuiCond_FirstUseEver);
 
 	if (ImGuiState.Objects.active) {
@@ -242,7 +279,8 @@ void Editor::ImGuiWindow() {
 			}
 			
 			ImGui::EndTable();
-			UpdateObjects();
+			if (!ImGuiState.GameField.play)
+				UpdateObjects();
 		}
 		ImGui::PopStyleVar();
 

@@ -7,14 +7,8 @@ void register_ecs_script_systems(flecs::world* ecs)
 {
 	static auto scriptSystemQuery = ecs->query<ScriptSystemPtr>();
 
-	ecs->system<ScriptNodeComponent, const Position>()
+	ecs->system<ScriptNodeComponent, const Position>().kind(flecs::PostLoad)
 		.each([&](flecs::entity e, ScriptNodeComponent& scriptNode, const Position& pos)
-			{
-				scriptNode.ptr->Update(e.delta_time());
-			});
-
-	ecs->system<ScriptNodeComponent, const Scale>()
-		.each([&](flecs::entity e, ScriptNodeComponent& scriptNode, const Scale& scal)
 			{
 				scriptNode.ptr->Update(e.delta_time());
 			});

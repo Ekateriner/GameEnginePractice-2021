@@ -12,6 +12,7 @@
 #include "RenderSystems/Direct3D11/OgreD3D11Plugin.h"
 //#include "RenderSystems/GL3Plus/OgreGL3PlusPlugin.h"
 
+//#include "ScriptSystem/ScriptSystem.h"
 #include "RenderThread.h"
 #include "RenderNode.h"
 #include "ResourceManager.h"
@@ -22,7 +23,7 @@
 #include "MTQueue.hpp"
 
 struct UpdateInfo {
-	RenderNode* pRenderNode;
+	RenderNode* pRenderNode = nullptr;
 	Ogre::Vector3 new_position;
 	Ogre::Vector3 new_scale;
 };
