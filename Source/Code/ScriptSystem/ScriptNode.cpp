@@ -41,6 +41,9 @@ ScriptNode::ScriptNode(std::string strScriptPath, InputHandler* pInputHandler, f
 	Ogre::Vector3 vPosition = GetPosition();
 	ent.set(Position{ vPosition.x , vPosition.y, vPosition.z });
 
+	Ogre::Vector3 vScale = GetScale();
+	ent.set(Scale{ vScale.x , vScale.y, vScale.z });
+
 	luabridge::LuaResult orientation = object[m_GetOrientationFunctionName]();
 	if (orientation.wasOk())
 	{
@@ -79,6 +82,24 @@ void ScriptNode::SetPosition(Ogre::Vector3 position)
 	object[m_SetPositionFunctionName](position.x, position.y, position.z);
 }
 
+Ogre::Vector3 ScriptNode::GetScale() const
+{
+	luabridge::LuaRef object = luabridge::getGlobal(m_script, m_EntityFieldName);
+
+	luabridge::LuaResult scale = object[m_GetScaleFunctionName]();
+	assert(scale.wasOk());
+
+	Ogre::Vector3 vScale = scale[0].cast<Ogre::Vector3>();
+
+	return vScale;
+}
+
+void ScriptNode::SetScale(Ogre::Vector3 scale)
+{
+	luabridge::LuaRef object = luabridge::getGlobal(m_script, m_EntityFieldName);
+	object[m_SetScaleFunctionName](scale.x, scale.y, scale.z);
+}
+
 Ogre::Vector3 ScriptNode::GetCameraPosition() const
 {
 	luabridge::LuaRef object = luabridge::getGlobal(m_script, m_EntityFieldName);
@@ -111,6 +132,12 @@ std::string ScriptNode::GetMeshName() const
 	luabridge::LuaRef meshName = properties[m_MeshNameFieldName];
 	return meshName.cast<std::string>();
 }
+
+std::string ScriptNode::GetFilePath() const
+{
+	return m_strScriptPath;
+}
+
 
 void ScriptNode::ReloadScript()
 {

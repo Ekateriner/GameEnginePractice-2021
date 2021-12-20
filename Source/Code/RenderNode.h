@@ -18,23 +18,28 @@ public:
 	Ogre::Vector3 GetPosition() const;
 	void SetPosition(Ogre::Vector3 position);
 
+	Ogre::Vector3 GetScale () const;
+	void SetScale(Ogre::Vector3 scale);
+
 	Ogre::Vector3 GetCameraPosition() const;
 	void SetCameraPosition(Ogre::Vector3 position);
 
 	Ogre::Quaternion GetOrientation() const;
-	void SetOrientation(Ogre::Quaternion position);
+	void SetOrientation(Ogre::Quaternion orientation);
 
 	void EnableCamera(bool bEnableCamera = true);
 	bool IsCameraEnabled() const;
 
 	Ogre::String& GetMeshName();
 	void SetSceneNode(Ogre::SceneNode* pSceneNode);
+
 	Ogre::SceneNode* GetSceneNode() const;
 
 	void SetStatic(bool isStatic);
 	bool GetStatic() const;
 private:
 	Ogre::Vector3 m_vPosition;
+	Ogre::Vector3 m_vScale;
 	Ogre::Vector3 m_vCameraPosition;
 	Ogre::Quaternion m_vOrientation;
 

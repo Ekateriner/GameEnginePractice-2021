@@ -26,6 +26,7 @@ void LoadingSystem::LoadFromXML(const std::string fileName)
 			currentCharacter.meshName = e->Attribute("meshName");
 			currentCharacter.scriptName = e->Attribute("scriptName");
 			currentCharacter.position = ParsePosition(e->Attribute("position"));
+			currentCharacter.scale = ParseScale(e->Attribute("scale"));
 
 			m_pEntityManager->CreateEntity(currentCharacter);
 		}
@@ -75,4 +76,9 @@ Ogre::Vector3 LoadingSystem::ParsePosition(const char* strPosition)
 	vPosition.z = std::stof(match[0]);
 
 	return vPosition;
+}
+
+Ogre::Vector3 LoadingSystem::ParseScale(const char* strScale)
+{
+	return ParsePosition(strScale);
 }

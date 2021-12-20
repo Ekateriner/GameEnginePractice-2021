@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\cppcoro\include\;$(SolutionDir)\..\SDKs\SDL2-2.0.18\include;$(SolutionDir)\..\SDKs\imgui;$(SolutionDir)\..\SDKs\imgui\backends;$(SolutionDir)\Source\Code;$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\cppcoro\include\;$(SolutionDir)\..\SDKs\SDL2-2.0.18\include;$(SolutionDir)\..\SDKs\imgui;$(SolutionDir)\..\SDKs\imgui\backends;$(SolutionDir)\Source\Code;$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml;$(SolutionDir)\..\SDKs\gl3w\include;$(SolutionDir)\..\SDKs\gl3w\src</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Bin\$(Platform)\$(Configuration)\</IntDir>
@@ -170,6 +170,7 @@
     <ClCompile Include="..\SDKs\cppcoro\lib\spin_wait.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\win32.cpp" />
+    <ClCompile Include="..\SDKs\gl3w\src\gl3w.c" />
     <ClCompile Include="..\SDKs\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\SDKs\imgui\backends\imgui_impl_sdl.cpp" />
     <ClCompile Include="..\SDKs\imgui\imgui.cpp" />

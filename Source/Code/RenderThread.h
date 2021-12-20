@@ -43,6 +43,7 @@ public:
 	void RC_BeginFrame();
 	void RC_EndFrame();
 	void RC_CreateSceneNode(RenderNode* pRenderNode);
+	//void RC_UpdateSceneNode(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale);
 
 private:
 	threadID m_nRenderThreadId;

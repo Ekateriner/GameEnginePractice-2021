@@ -12,7 +12,6 @@ RenderEngine::RenderEngine(ResourceManager* pResourceManager):
 	m_pCamera(nullptr),
 	m_pWorkspace(nullptr),
 	m_pRT(nullptr),
-	m_bQuit(false),
 	m_pResourceManager(pResourceManager)
 //	m_UseGUI(gui)
 {
@@ -31,7 +30,7 @@ RenderEngine::RenderEngine(ResourceManager* pResourceManager):
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
 	SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-	m_SDL_Window = SDL_CreateWindow("Game", 566, 25, 800, 743, window_flags);
+	m_SDL_Window = SDL_CreateWindow("Game", 566, 28, 800, 740, window_flags);
 
 	SDL_GL_SetSwapInterval(1);
 
@@ -45,6 +44,7 @@ RenderEngine::RenderEngine(ResourceManager* pResourceManager):
 
 	m_pRT->Start();
 	m_pJobSystem = new cppcoro::static_thread_pool(4);
+	m_bQuit.store(false);
 }
 
 RenderEngine::~RenderEngine()
@@ -76,9 +76,14 @@ bool RenderEngine::SetOgreConfig()
 
 void RenderEngine::Update()
 {
-	m_GL_Context = SDL_GL_CreateContext(m_SDL_Window);
+	//m_GL_Context = SDL_GL_CreateContext(m_SDL_Window);
 	SDL_GL_MakeCurrent(m_SDL_Window, m_GL_Context);
 	Ogre::WindowEventUtilities::messagePump();
+
+	for (auto up_info : UpdateQueue.get_queue()) {
+		//up_info.pRenderNode->SetPosition(up_info.new_position);
+		//up_info.pRenderNode->SetScale(up_info.new_scale);
+	}
 
 	for (RenderNode* pRenderNode : m_RenderNodes)
 	{
@@ -87,6 +92,9 @@ void RenderEngine::Update()
 
 		Ogre::Vector3 vPosition = pRenderNode->GetPosition();
 		pRenderNode->GetSceneNode()->setPosition(vPosition);
+		
+		Ogre::Vector3 vScale = pRenderNode->GetScale();
+		pRenderNode->GetSceneNode()->setScale(vScale);
 
 		Ogre::Quaternion orientation = pRenderNode->GetOrientation();
 		pRenderNode->GetSceneNode()->setOrientation(orientation);
@@ -100,11 +108,24 @@ void RenderEngine::Update()
 
 	if (m_pRenderWindow->isVisible())
 		if (m_pRenderWindow->isClosed())
-			m_bQuit = true;
+			m_bQuit.store(true);
 		else 
-			m_bQuit |= !m_pRoot->renderOneFrame();
+			m_bQuit.store(m_bQuit.load() | !m_pRoot->renderOneFrame());
+
 	/*if (m_bQuit)
 		m_pRT->RC_End();*/
+}
+
+void RenderEngine::ProcessInput() {
+	SDL_Event event;
+	if (SDL_PollEvent(&event)) {
+		if (event.window.windowID != SDL_GetWindowID(m_SDL_Window)) {
+			SDL_PushEvent(&event);
+		}
+		else if (event.window.event == SDL_WINDOWEVENT_CLOSE) {
+			m_bQuit.store(true);
+		}
+	}
 }
 
 void RenderEngine::RT_Init()
@@ -119,7 +140,7 @@ void RenderEngine::RT_Init()
 
 	if (!SetOgreConfig())
 	{
-		m_bQuit = true;
+		m_bQuit.store(true);
 		return;
 	}
 
@@ -129,7 +150,7 @@ void RenderEngine::RT_Init()
 	SDL_GL_MakeCurrent(m_SDL_Window, m_GL_Context);
 
 	Ogre::uint32 width = 800;
-	Ogre::uint32 height = 743;
+	Ogre::uint32 height = 740;
 	Ogre::String sTitleName = "Game Engine";
 	Ogre::NameValuePairList params;
 
@@ -193,11 +214,25 @@ void RenderEngine::RT_CreateSceneNode(RenderNode* pRenderNode)
 	Ogre::SceneNode* pSceneNode = m_pSceneManager->getRootSceneNode(Ogre::SCENE_DYNAMIC)->
 		createChildSceneNode(Ogre::SCENE_DYNAMIC);
 	pSceneNode->attachObject(item);
-	pSceneNode->scale(0.1f, 0.1f, 0.1f); // TODO: move out to ecs
+	//pSceneNode->scale(0.1f, 0.1f, 0.1f); // TODO: move out to ecs
 	
 	pRenderNode->SetSceneNode(pSceneNode);
 
 	m_RenderNodes.push_back(pRenderNode);
+}
+
+//void RenderEngine::RT_UpdateSceneNode(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale)
+//{
+//	pRenderNode->SetPosition(position);
+//	pRenderNode->SetScale(scale);
+//}
+
+void RenderEngine::AddUpdate(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale) {
+	UpdateInfo up_info;
+	up_info.pRenderNode = pRenderNode;
+	up_info.new_position = position;
+	up_info.new_scale = scale;
+	UpdateQueue.add_command(up_info);
 }
 
 void RenderEngine::ImportV1Mesh(Ogre::String strMeshName)

@@ -18,5 +18,6 @@ private:
 	std::string m_strSavesRootPath;
 
 	Ogre::Vector3 ParsePosition(const char* strPosition);
+	Ogre::Vector3 ParseScale(const char* strScale);
 };
 

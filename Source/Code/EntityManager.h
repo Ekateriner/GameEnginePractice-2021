@@ -9,6 +9,7 @@ struct EntityInfo
 	std::string meshName;
 	std::string scriptName;
 	Ogre::Vector3 position;
+	Ogre::Vector3 scale;
 	Ogre::Quaternion rotation;
 };
 
@@ -17,6 +18,7 @@ struct Entity
 	RenderNode* pRenderNode;
 	ScriptNode* pScriptNode;
 	Ogre::Vector3 position;
+	Ogre::Vector3 scale;
 	Ogre::Quaternion rotation;
 	int idx;
 };

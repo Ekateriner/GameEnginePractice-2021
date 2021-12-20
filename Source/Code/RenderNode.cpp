@@ -21,6 +21,7 @@ RenderNode::RenderNode(uint32_t idx, Ogre::String& strMeshName) :
 void RenderNode::Init()
 {
 	m_vPosition = Ogre::Vector3::ZERO;
+	m_vScale = Ogre::Vector3::ZERO;
 	m_vCameraPosition = Ogre::Vector3::ZERO;
 
 	Ogre::Radian radian(0.0f);
@@ -52,6 +53,16 @@ void RenderNode::SetPosition(Ogre::Vector3 position)
 	m_vPosition = position;
 }
 
+Ogre::Vector3 RenderNode::GetScale() const
+{
+	return m_vScale;
+}
+
+void RenderNode::SetScale(Ogre::Vector3 scale)
+{
+	m_vScale = scale;
+}
+
 Ogre::Vector3 RenderNode::GetCameraPosition() const
 {
 	return m_vCameraPosition;
@@ -72,9 +83,9 @@ Ogre::Quaternion RenderNode::GetOrientation() const
 	return m_vOrientation;
 }
 
-void RenderNode::SetOrientation(Ogre::Quaternion position)
+void RenderNode::SetOrientation(Ogre::Quaternion orientation)
 {
-	m_vOrientation = position;
+	m_vOrientation = orientation;
 }
 
 void RenderNode::SetSceneNode(Ogre::SceneNode* pSceneNode)

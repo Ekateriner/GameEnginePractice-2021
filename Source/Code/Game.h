@@ -21,6 +21,9 @@ public:
 	void Run();
 	bool Update();
 	bool GetQuit();
+	void Quit();
+	std::unordered_map<uint32_t, Entity> GetEntities();
+	RenderEngine* GetRE();
 
 private:
 	GameTimer m_Timer;

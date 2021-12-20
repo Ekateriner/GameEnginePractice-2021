@@ -171,6 +171,17 @@ void RenderThread::RC_CreateSceneNode(RenderNode* pRenderNode)
 	m_Commands.add_command(std::bind(&RenderEngine::RT_CreateSceneNode, m_pRenderEngine, pRenderNode));
 }
 
+//void RenderThread::RC_UpdateSceneNode(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale)
+//{
+//	if (IsRenderThread())
+//	{
+//		m_pRenderEngine->RT_UpdateSceneNode(pRenderNode, position, scale);
+//		return;
+//	}
+//
+//	m_Commands.add_command(std::bind(&RenderEngine::RT_UpdateSceneNode, m_pRenderEngine, pRenderNode, position, scale));
+//}
+
 
 void RenderThread::RC_BeginFrame()
 {

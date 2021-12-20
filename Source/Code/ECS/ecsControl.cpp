@@ -26,6 +26,16 @@ void register_ecs_control_systems(flecs::world* ecs)
 				pos.z = vPosition.z;
 			});
 
+	ecs->system<const Controllable, ScriptNodeComponent, Scale>()
+		.each([&](flecs::entity e, const Controllable&, ScriptNodeComponent& scriptNode, Scale& scal)
+	{
+		Ogre::Vector3 vScale = scriptNode.ptr->GetScale();
+		scal.x = vScale.x;
+		scal.y = vScale.y;
+		scal.z = vScale.z;
+	});
+
+
 	ecs->system<ScriptNodeComponent, Orientation>()
 		.each([&](flecs::entity e, ScriptNodeComponent& scriptNode, Orientation& orient)
 			{

@@ -12,4 +12,10 @@ void register_ecs_script_systems(flecs::world* ecs)
 			{
 				scriptNode.ptr->Update(e.delta_time());
 			});
+
+	ecs->system<ScriptNodeComponent, const Scale>()
+		.each([&](flecs::entity e, ScriptNodeComponent& scriptNode, const Scale& scal)
+			{
+				scriptNode.ptr->Update(e.delta_time());
+			});
 }

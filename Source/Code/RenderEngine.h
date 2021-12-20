@@ -19,6 +19,13 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <cppcoro/static_thread_pool.hpp>
+#include "MTQueue.hpp"
+
+struct UpdateInfo {
+	RenderNode* pRenderNode;
+	Ogre::Vector3 new_position;
+	Ogre::Vector3 new_scale;
+};
 
 class RenderEngine
 {
@@ -33,14 +40,15 @@ public:
 	RenderEngine& operator=(const RenderEngine&) = delete;
 
 	void Update();
-
-	bool GetQuit() { return m_bQuit; }
-	void SetQuit(bool bQuit) { m_bQuit = bQuit; }
+	bool GetQuit() { return m_bQuit.load(); }
+	void SetQuit(bool bQuit) { m_bQuit.store(bQuit); }
 
 	RenderThread* GetRT() const { return m_pRT; }
+	void AddUpdate(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale);
 
 private:
 	bool SetOgreConfig();
+	void ProcessInput();
 
 	void RT_Init();
 	void RT_SetupDefaultCamera();
@@ -48,6 +56,7 @@ private:
 	void RT_LoadDefaultResources();
 	void RT_SetupDefaultLight();
 	void RT_CreateSceneNode(RenderNode* pRenderNode);
+	//void RT_UpdateSceneNode(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale);
 
 	void ImportV1Mesh(Ogre::String strMeshName);
 
@@ -68,6 +77,7 @@ private:
 	SDL_Window* m_SDL_Window;
 	SDL_GLContext m_GL_Context;
 
-	bool m_bQuit;
+	std::atomic<bool> m_bQuit;
+	MTQueue<UpdateInfo> UpdateQueue;
 };
 

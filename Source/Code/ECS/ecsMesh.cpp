@@ -21,6 +21,12 @@ void register_ecs_mesh_systems(flecs::world* ecs)
 				renderNode.ptr->SetPosition(pos);
 			});
 
+	ecs->system<RenderNodeComponent, const Scale>()
+		.each([&](RenderNodeComponent& renderNode, const Scale& scal)
+	{
+		renderNode.ptr->SetScale(scal);
+	});
+
 	ecs->system<RenderNodeComponent, const Orientation>()
 		.each([&](RenderNodeComponent& renderNode, const Orientation& orient)
 			{

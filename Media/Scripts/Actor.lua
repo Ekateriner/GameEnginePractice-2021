@@ -8,6 +8,7 @@ Entity = {
     up_vector = Vector3(0.0, 1.0, 0.0),
     orientation = Quaternion(Radian(0.0), Vector3(0.0, 1.0, 0.0)),
     position = Vector3(25.0, 0.0, 0.0),
+    scale = Vector3(0.1, 0.1, 0.1),
 }
 
 Entity.OnInit = function()
@@ -26,6 +27,16 @@ Entity.SetPosition = function(x, y, z)
     Entity.position.x = x;
     Entity.position.y = y;
     Entity.position.z = z;
+end
+
+Entity.GetScale = function()
+    return Entity.scale;
+end
+
+Entity.SetScale = function(x, y, z)
+    Entity.scale.x = x;
+    Entity.scale.y = y;
+    Entity.scale.z = z;
 end
 
 Entity.GetOrientation = function()

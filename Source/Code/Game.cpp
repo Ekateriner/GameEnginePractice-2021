@@ -74,3 +74,16 @@ bool Game::GetQuit()
 {
 	return m_pRenderEngine->GetQuit();
 }
+
+void Game::Quit()
+{
+	m_pRenderEngine->SetQuit(true);
+}
+
+std::unordered_map<uint32_t, Entity> Game::GetEntities() {
+	return m_pEntityManager->GetEntityQueue();
+}
+
+RenderEngine* Game::GetRE() {
+	return m_pRenderEngine;
+}

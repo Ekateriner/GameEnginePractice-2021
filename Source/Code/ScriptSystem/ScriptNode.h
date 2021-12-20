@@ -49,9 +49,14 @@ public:
 	Ogre::Vector3 GetPosition() const;
 	void SetPosition(Ogre::Vector3 position);
 
+	Ogre::Vector3 GetScale() const;
+	void SetScale(Ogre::Vector3 scale);
+
 	Ogre::Vector3 GetCameraPosition() const;
 	Ogre::Quaternion GetOrientation() const;
 	std::string GetMeshName() const;
+	std::string GetFilePath() const;
+
 	bool GetIsStatic() const;
 
 private:
@@ -75,6 +80,8 @@ private:
 
 	const char* m_GetPositionFunctionName = "GetPosition";
 	const char* m_SetPositionFunctionName = "SetPosition";
+	const char* m_GetScaleFunctionName = "GetScale";
+	const char* m_SetScaleFunctionName = "SetScale";
 	const char* m_GetCameraPositionFunctionName = "GetCameraPosition";
 	const char* m_GetCameraOffsetFunctionName = "GetCameraOffset";
 	const char* m_SetCameraOffsetFunctionName = "SetCameraOffset";
