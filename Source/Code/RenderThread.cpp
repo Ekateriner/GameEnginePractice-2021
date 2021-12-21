@@ -36,7 +36,7 @@ void RenderThread::Run()
 {
 	m_nRenderThreadId = ::GetCurrentThreadId();
 
-	while (true)
+	while (!m_pRenderEngine->GetQuit())
 	{
 		WaitForMainThreadSignal();
 

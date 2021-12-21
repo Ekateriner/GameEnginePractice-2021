@@ -82,9 +82,9 @@ void Game::Run()
 
 			clear_enities_end_fl.store(true);
 			clear_enities_fl.store(false);
-		}
 
-		if (world_recreation_fl.load()) {
+			while (!world_recreation_fl.load()) {
+			}
 			register_ecs_mesh_systems(m_pEcs);
 			register_ecs_control_systems(m_pEcs);
 			register_ecs_phys_systems(m_pEcs);
@@ -97,7 +97,6 @@ void Game::Run()
 			world_recreation_end_fl.store(true);
 			world_recreation_fl.store(false);
 		}
-
 		m_pRenderEngine->GetRT()->SignalRenderThread();
 	}
 }
@@ -132,14 +131,14 @@ void Game::UpdatePhysics(bool flag) {
 }
 
 cppcoro::task<> Game::Save(std::string path, std::unordered_map<uint32_t, Entity> ent_queue) {
-	co_await cppcoro::schedule_on(m_ThreadPool, std::move(m_pLoadingSystem->SaveToXML(std::filesystem::path(path), ent_queue)));
+	co_await cppcoro::schedule_on(m_ThreadPool, std::move(m_pLoadingSystem->SaveToXML(std::filesystem::path(path), ent_queue, m_pFileSystem->GetScriptsRoot())));
 	co_return;
 }
 
 cppcoro::task<> Game::SaveBits(std::string path, std::unordered_map<uint32_t, Entity> ent_queue) {
 	cppcoro::io_service ioService;
 	co_await cppcoro::schedule_on(m_ThreadPool, cppcoro::when_all_ready(
-		std::move(m_pLoadingSystem->SaveToBits(std::filesystem::path(path), ent_queue, ioService)),
+		std::move(m_pLoadingSystem->SaveToBits(std::filesystem::path(path), ent_queue, ioService, m_pFileSystem->GetScriptsRoot())),
 		process_events(ioService)));
 	co_return ;
 }
@@ -165,17 +164,15 @@ std::filesystem::path Game::GetSavesRoot() {
 }
 
 void Game::recreate_world() {
-	delete m_pLoadingSystem;
-	delete m_pEntityManager;
-	delete m_pScriptSystem;
-	delete m_pEcs;
+	m_pRenderEngine->Recreate();
+
+	SAFE_DELETE(m_pLoadingSystem);
+	SAFE_DELETE(m_pEntityManager);
+	SAFE_DELETE(m_pEcs);
 
 	m_pEcs = new flecs::world();
-	m_pScriptSystem = new ScriptSystem(m_pInputHandler, m_pFileSystem->GetScriptsRoot());
 	m_pEntityManager = new EntityManager(m_pRenderEngine, m_pScriptSystem, m_pEcs);
 	m_pLoadingSystem = new LoadingSystem(m_pEntityManager, m_pFileSystem->GetSavesRoot());
-
-	m_pRenderEngine->Recreate();
 
 	m_Timer.Start();
 

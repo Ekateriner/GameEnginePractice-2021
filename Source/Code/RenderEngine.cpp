@@ -278,15 +278,12 @@ void RenderEngine::RT_SetupDefaultLight()
 void RenderEngine::Recreate() {
 	m_RenderNodes.clear();
 	m_pSceneManager->clearScene(true);
+	
+	m_pCamera->setPosition(Ogre::Vector3(0, 10, 35));
+	m_pCamera->lookAt(Ogre::Vector3(0, 0, 0));
+	m_pCamera->setNearClipDistance(0.2f);
+	m_pCamera->setFarClipDistance(1000.0f);
+	m_pCamera->setAutoAspectRatio(true);
 
-	auto cameraIter = m_pSceneManager->getCameraIterator();
-	while (cameraIter.hasMoreElements()) {
-		m_pCamera = cameraIter.getNext();
-		m_pCamera->setPosition(Ogre::Vector3(0, 10, 35));
-		m_pCamera->lookAt(Ogre::Vector3(0, 0, 0));
-		m_pCamera->setNearClipDistance(0.2f);
-		m_pCamera->setFarClipDistance(1000.0f);
-		m_pCamera->setAutoAspectRatio(true);
-	}
 	RT_SetupDefaultLight();
 }

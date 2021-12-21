@@ -1,0 +1,12 @@
+<scene name="game">
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Pawn.lua" position="0.000000,0.000000,0.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="25.000000,0.000000,25.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="15.000000,0.000000,15.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="15.000000,0.000000,15.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="-26.530001,0.000000,-26.530001" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="-15.000000,0.000000,-15.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="25.000000,10.000000,25.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="25.000000,-15.000000,25.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="25.000000,-15.000000,25.000000" scale="0.100000,0.100000,0.100000" />
+    <character meshName="ogrehead.mesh" scriptName="Scripts\Actor.lua" position="25.000000,-15.000000,25.000000" scale="0.100000,0.100000,0.100000" />
+</scene>

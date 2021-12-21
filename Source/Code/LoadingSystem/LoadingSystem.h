@@ -16,13 +16,13 @@ public:
 
 	~LoadingSystem();
 	cppcoro::task<> LoadFromXML(const std::filesystem::path fileName);
-	cppcoro::task<> SaveToXML(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue);
+	cppcoro::task<> SaveToXML(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue, const std::string root);
 
 	//cppcoro::task<> LoadFromJson(const std::filesystem::path fileName);
 	//cppcoro::task<> SaveToJson(const std::filesystem::path fileName);
 
 	cppcoro::task<> LoadFromBits(const std::filesystem::path fileName, cppcoro::io_service& ioService);
-	cppcoro::task<> SaveToBits(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue, cppcoro::io_service& ioService);
+	cppcoro::task<> SaveToBits(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue, cppcoro::io_service& ioService, const std::string root);
 
 private:
 

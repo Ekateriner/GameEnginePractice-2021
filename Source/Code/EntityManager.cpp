@@ -11,8 +11,8 @@ EntityManager::EntityManager(RenderEngine* pRenderEngine, ScriptSystem* pScriptS
 EntityManager::~EntityManager()
 {
 	for (auto& [ind, ent] : m_entityQueue) {
-		delete ent.pRenderNode;
-		delete ent.pScriptNode;
+		SAFE_DELETE(ent.pRenderNode);
+		SAFE_DELETE(ent.pScriptNode);
 	}
 	m_entityQueue.clear();
 }

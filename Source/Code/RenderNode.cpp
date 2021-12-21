@@ -30,7 +30,7 @@ void RenderNode::Init()
 
 RenderNode::~RenderNode()
 {
-	SAFE_DELETE(m_pSceneNode);
+	//SAFE_DELETE(m_pSceneNode);
 }
 
 void RenderNode::SetId(uint32_t idx)

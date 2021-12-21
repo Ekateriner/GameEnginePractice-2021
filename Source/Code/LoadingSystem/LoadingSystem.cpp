@@ -39,34 +39,28 @@ cppcoro::task<> LoadingSystem::LoadFromXML(const std::filesystem::path fileName)
 	co_return;
 }
 
-cppcoro::task<> LoadingSystem::SaveToXML(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue)
+cppcoro::task<> LoadingSystem::SaveToXML(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue, const std::string root)
 {
 	const auto pathName = m_strSavesRootPath / fileName;
 	std::filesystem::remove(pathName);
 	TiXmlDocument doc(pathName.u8string().c_str());
-	const auto elem = doc.FirstChildElement("scene");
-	auto entityQueue = ent_queue;
+	TiXmlElement* elem_root = new TiXmlElement("scene");
+	doc.LinkEndChild(elem_root);
+	elem_root->SetAttribute("name", "game");
 
+	auto entityQueue = ent_queue;
 	for (auto& entity : entityQueue)
 	{
-		for (TiXmlElement* e = elem->FirstChildElement("character"); e != NULL; e = e->NextSiblingElement("character"))
-		{
-			TiXmlElement* meshElement = e->FirstChildElement("meshName");
-			meshElement->SetAttribute("meshName", entity.second.pScriptNode->GetMeshName().c_str());
-
-			TiXmlElement* scriptElement = e->FirstChildElement("scriptName");
-			scriptElement->SetAttribute("scriptName", entity.second.pScriptNode->GetFilePath().c_str());
-
-			TiXmlElement* posElement = e->FirstChildElement("position");
-			auto pos = entity.second.pRenderNode->GetPosition();
-			char str_pos[35];
-			posElement->SetAttribute("position", sprintf(str_pos, "%f,%f,%f", pos.x, pos.y, pos.z));
-
-			TiXmlElement* scaleElement = e->FirstChildElement("scale");
-			auto scale = entity.second.pRenderNode->GetScale();
-			char str_scale[35];
-			scaleElement->SetAttribute("scale", sprintf(str_scale, "%f,%f,%f", scale.x, scale.y, scale.z));
-		}
+		TiXmlElement* e = new TiXmlElement("character");
+		elem_root->LinkEndChild(e);
+		e->SetAttribute("meshName", entity.second.pRenderNode->GetMeshName().c_str());
+		e->SetAttribute("scriptName", entity.second.pScriptNode->GetFilePath().c_str() + root.size());
+		auto pos = entity.second.pRenderNode->GetPosition();
+		std::string pos_str = std::to_string(pos.x) + "," + std::to_string(pos.y) + "," + std::to_string(pos.x);
+		e->SetAttribute("position", pos_str.c_str());
+		auto scale = entity.second.pRenderNode->GetScale();
+		std::string scale_str = std::to_string(scale.x) + "," + std::to_string(scale.y) + "," + std::to_string(scale.x);
+		e->SetAttribute("scale", scale_str.c_str());
 	}
 
 	doc.SaveFile();
@@ -118,7 +112,7 @@ cppcoro::task<> LoadingSystem::LoadFromBits(const std::filesystem::path fileName
 	co_return;
 }
 
-cppcoro::task<> LoadingSystem::SaveToBits(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue, cppcoro::io_service& ioService)
+cppcoro::task<> LoadingSystem::SaveToBits(const std::filesystem::path fileName, std::unordered_map<uint32_t, Entity> ent_queue, cppcoro::io_service& ioService, const std::string root)
 {
 	cppcoro::io_work_scope ioScope(ioService);
 	const auto pathName = m_strSavesRootPath / fileName;
@@ -132,9 +126,9 @@ cppcoro::task<> LoadingSystem::SaveToBits(const std::filesystem::path fileName, 
 		bytes_write += co_await file.write(bytes_write, &str_size, sizeof(uint32_t));
 		bytes_write += co_await file.write(bytes_write, entity.pRenderNode->GetMeshName().data(), str_size);
 
-		str_size = entity.pScriptNode->GetFilePath().size();
+		str_size = entity.pScriptNode->GetFilePath().size() - root.size();
 		bytes_write += co_await file.write(bytes_write, &str_size, sizeof(uint32_t));
-		bytes_write += co_await file.write(bytes_write, entity.pScriptNode->GetFilePath().data(), str_size);
+		bytes_write += co_await file.write(bytes_write, entity.pScriptNode->GetFilePath().data() + root.size(), str_size);
 
 		auto pos = entity.pRenderNode->GetPosition();
 		bytes_write += co_await file.write(bytes_write, &pos, sizeof(Ogre::Vector3));
