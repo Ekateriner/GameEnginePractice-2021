@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ScriptSystem/ScriptSystem.h"
-#include "LoadingSystem/LoadingSystem.h"
 #include "RenderNode.h"
 #include "string.h"
 
@@ -41,7 +40,6 @@ public:
 private:
 	ScriptSystem* m_pScriptSystem;
 	RenderEngine* m_pRenderEngine;
-	LoadingSystem* m_pLoadingSystem;
 	flecs::world* m_pEcs;
 
 	std::unordered_map<uint32_t, Entity> m_entityQueue;

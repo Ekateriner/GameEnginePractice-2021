@@ -43,6 +43,7 @@ public:
 	void RC_BeginFrame();
 	void RC_EndFrame();
 	void RC_CreateSceneNode(RenderNode* pRenderNode);
+	void SignalRenderThread();
 	//void RC_UpdateSceneNode(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale);
 
 private:
@@ -63,7 +64,6 @@ private:
 
 	inline bool CheckFlushCond();
 	inline void SignalMainThread();
-	inline void SignalRenderThread();
 	void WaitForMainThreadSignal();
 	void WaitForRenderThreadSignal();
 	void SyncMainWithRender();

@@ -9,10 +9,14 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_syswm.h>
+#include <filesystem>
+#include <cppcoro/sync_wait.hpp>
 
 Editor::Editor():
 	m_Quit(false)
 {
+	m_pScopeSave = new cppcoro::async_scope;
+	m_pScopeLoad = new cppcoro::async_scope;
 	SDL_Init(SDL_INIT_VIDEO);
 	gl3wInit();
 
@@ -50,6 +54,11 @@ Editor::Editor():
 }
 
 Editor::~Editor() {
+	cppcoro::sync_wait(m_pScopeSave->join());
+	cppcoro::sync_wait(m_pScopeLoad->join());
+	delete m_pScopeSave;
+	delete m_pScopeLoad;
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
@@ -86,6 +95,10 @@ void Editor::Run() {
 	{
 		m_pGame->UpdatePhysics(ImGuiState.GameField.play);
 		Update();
+
+		cppcoro::sync_wait(m_pScopeLoad->join());
+		delete m_pScopeLoad;
+		m_pScopeLoad = new cppcoro::async_scope;
 	}
 	m_pGameThread->join();
 }
@@ -107,25 +120,27 @@ void Editor::ProcessInput(){
 void Editor::ImGuiWindow() {
 
 	//ImGui::ShowDemoWindow(&m_Quit);
-	bool general_fl = true;
-	ImGui::Begin("General", &general_fl, ImGuiWindowFlags_MenuBar);
+	ImGui::Begin("General", &ImGuiState.general_fl, ImGuiWindowFlags_MenuBar);
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
 			if (ImGui::MenuItem("Open..", "Ctrl+O")) { 
 				ImGuiState.Open.active = true;
+				ImGuiState.Add.error = false;
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) { 
 				ImGuiState.Save.active = true;
+				ImGuiState.Save.error = false;
 			}
-			if (ImGui::MenuItem("Close", "Ctrl+W")) { m_Quit; }
+			if (ImGui::MenuItem("Close", "Ctrl+W")) { ImGuiState.general_fl = false; }
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Object"))
 		{
 			if (ImGui::MenuItem("Add..", "Ctrl+A")) {
 				ImGuiState.Add.active = true;
+				ImGuiState.Add.error = false;
 			}
 			if (ImGui::MenuItem("Objects window", "Ctrl+I")) {
 				ImGuiState.Objects.active = true;
@@ -147,26 +162,27 @@ void Editor::ImGuiWindow() {
 			}
 			if (ImGui::MenuItem("Export", "Ctrl+E")) {
 				ImGuiState.GameField.exp = true;
+				ImGuiState.GameField.error = false;
 			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
-
-	//// Edit a color (stored as ~4 floats)
-	//ImGui::ColorEdit4("Color", my_color);
-
-	//// Plot some values
-	//const float my_values[] = { 0.2f, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
-	//ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
-
-	//// Display contents in a scrolling region
-	//ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-	//ImGui::BeginChild("Scrolling");
-	//for (int n = 0; n < 50; n++)
-	//	ImGui::Text("%04d: Some text", n);
-	//ImGui::EndChild();
 	ImGui::End();
+
+	if (!ImGuiState.general_fl) {
+		bool fl = true;
+		ImGui::Begin("Close Window", &fl, ImGuiWindowFlags_MenuBar);
+		ImGui::Text("Are you confident? State can be losen.");
+
+		if (ImGui::Button("Close")) {
+			m_Quit = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel") || !fl) {
+			ImGuiState.general_fl = true;
+		}
+	}
 
 	if (ImGuiState.Save.active) {
 		ImGui::Begin("Save", &ImGuiState.Save.active, ImGuiWindowFlags_MenuBar);
@@ -177,10 +193,21 @@ void Editor::ImGuiWindow() {
 		bool fl = false;
 		if (ImGui::Button("Save")) {
 			fl = ImGuiState.Save.file_path.empty();
+			if (!fl) {
+				cppcoro::sync_wait(m_pScopeLoad->join());
+				delete m_pScopeLoad;
+				m_pScopeLoad = new cppcoro::async_scope;
+				m_pScopeSave->spawn(std::move(m_pGame->SaveBits(ImGuiState.Save.file_path, m_pGame->GetEntities())));
+				ImGuiState.Save.active = false;
+				ImGuiState.Save.error = false;
+			}
+			else {
+				ImGuiState.Save.error = true;
+			}
 		}
-		if (!fl) {
-			// Save
-			ImGuiState.Save.active = false;
+
+		if (ImGuiState.Save.error) {
+			ImGui::Text("Field is empty!");
 		}
 
 		ImGui::End();
@@ -195,10 +222,27 @@ void Editor::ImGuiWindow() {
 		bool fl = false;
 		if (ImGui::Button("Open")) {
 			fl = ImGuiState.Open.file_path.empty();
+			if (!fl) {
+				if (!std::filesystem::exists(m_pGame->GetSavesRoot() / ImGuiState.Open.file_path)) {
+					ImGui::Text("File doesn't exsit");
+				}
+				else {
+					ImGuiState.Objects.objects.clear();
+					cppcoro::sync_wait(m_pScopeSave->join());
+					delete m_pScopeSave;
+					m_pScopeSave = new cppcoro::async_scope;
+					m_pScopeLoad->spawn(std::move(m_pGame->LoadBits(ImGuiState.Open.file_path)));
+					ImGuiState.Open.active = false;
+					ImGuiState.Open.error = false;
+				}
+			}
+			else {
+				ImGuiState.Open.error = true;
+			}
 		}
-		if (!fl) {
-			//Check Open and Open
-			ImGuiState.Open.active = false;
+
+		if (ImGuiState.Open.error) {
+			ImGui::Text("File doesn't exsist!");
 		}
 
 		ImGui::End();
@@ -213,10 +257,21 @@ void Editor::ImGuiWindow() {
 		bool fl = false;
 		if (ImGui::Button("Add")) {
 			fl = ImGuiState.Add.file_path.empty();
+			if (!fl && std::filesystem::exists(m_pGame->GetSavesRoot() / ImGuiState.Add.file_path)) {
+				//Add
+				
+				//
+				//m_ScopeLoad.spawn(m_pGame->LoadBits(ImGuiState.Open.file_path));
+				ImGuiState.Add.active = false;
+				ImGuiState.Add.error = false;
+			}
+			else {
+				ImGuiState.Add.error = true;
+			}
 		}
-		if (!fl) {
-			//Check Open and Open
-			ImGuiState.Add.active = false;
+
+		if (ImGuiState.Add.error) {
+			ImGui::Text("File doesn't exsist!");
 		}
 
 		ImGui::End();
@@ -229,12 +284,23 @@ void Editor::ImGuiWindow() {
 		ImGui::InputText("Path to file", ImGuiState.GameField.file_path.data(), ImGuiState.GameField.file_path.size());
 
 		bool fl = false;
-		if (ImGui::Button("Add")) {
+		if (ImGui::Button("Export")) {
 			fl = ImGuiState.GameField.file_path.empty();
+			if (!fl) {
+				cppcoro::sync_wait(m_pScopeLoad->join());
+				delete m_pScopeLoad;
+				m_pScopeLoad = new cppcoro::async_scope;
+				m_pScopeSave->spawn(std::move(m_pGame->Save(ImGuiState.GameField.file_path, m_pGame->GetEntities())));
+				ImGuiState.GameField.exp = false;
+				ImGuiState.GameField.error = false;
+			}
+			else {
+				ImGuiState.GameField.error = true;
+			}
 		}
-		if (!fl) {
-			//Check Open and Open
-			ImGuiState.GameField.exp = false;
+
+		if (ImGuiState.GameField.error) {
+			ImGui::Text("Field is empty!");
 		}
 
 		ImGui::End();

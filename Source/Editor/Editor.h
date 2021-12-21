@@ -5,6 +5,7 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include <cppcoro/async_scope.hpp>
 
 class Editor {
 public:
@@ -45,25 +46,35 @@ private:
 	void UpdateObjects();
 
 	struct {
+		bool general_fl = true;
+
 		struct {
 			bool active = false;
 			std::string file_path;
+
+			bool error = false;
 		} Open;
 
 		struct {
 			bool active = false;
 			std::string file_path;
+
+			bool error = false;
 		} Save;
 
 		struct {
 			bool active = false;
 			std::string file_path;
+
+			bool error = false;
 		} Add;
 
 		struct {
 			bool play = false;
 			bool exp = false;
-			std::string file_path;
+			std::string file_path = "initialScene.xml";
+
+			bool error = false;
 		} GameField;
 
 		struct {
@@ -75,6 +86,8 @@ private:
 	
 	Game* m_pGame;
 	std::unique_ptr<std::thread> m_pGameThread;
+	cppcoro::async_scope* m_pScopeLoad;
+	cppcoro::async_scope* m_pScopeSave;
 
 	SDL_Window* m_SDL_Window_GUI;
 	SDL_GLContext m_GL_Context_GUI;

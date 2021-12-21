@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\cppcoro\include\;$(SolutionDir)\..\SDKs\SDL2-2.0.18\include;$(SolutionDir)\..\SDKs\imgui;$(SolutionDir)\..\SDKs\imgui\backends;$(SolutionDir)\Source\Code;$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml;$(SolutionDir)\..\SDKs\gl3w\include;$(SolutionDir)\..\SDKs\gl3w\src;$(SolutionDir)\Code\</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\..\SDKs\cppcoro\include\;$(SolutionDir)\..\SDKs\SDL2-2.0.18\include;$(SolutionDir)\..\SDKs\imgui;$(SolutionDir)\..\SDKs\imgui\backends;$(SolutionDir)\Source\Code;$(SolutionDir)\..\SDKs\Ogre\include\OGRE;$(SolutionDir)\..\SDKs\Ogre\include\OGRE\Hlms\Common;$(SolutionDir)\..\SDKs\LuaBridge3\include;$(SolutionDir)\..\SDKs\lua\include;$(SolutionDir)\..\SDKs\crc32;$(SolutionDir)\..\SDKs\flecs;$(SolutionDir)\..\SDKs\tinyxml;$(SolutionDir)\..\SDKs\gl3w\include;$(SolutionDir)\..\SDKs\gl3w\src;$(SolutionDir)\..\SDKs\json\include\nlohmann\</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
     <OutDir>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Bin\$(Platform)\$(Configuration)\</IntDir>
@@ -126,8 +126,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\SDKs\cppcoro\build\windows_x64_msvc15_debug\lib;$(SolutionDir)\..\SDKs\SDL2-2.0.18\lib\x64\;$(SolutionDir)\..\SDKs\Ogre\lib\Debug;$(SolutionDir)\..\SDKs\lua\lib\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);SDL2.lib;OgreMain_d.lib;RenderSystem_Direct3D11_d.lib;OgreHlmsPbs_d.lib;OgreHlmsUnlit_d.lib;OgreMeshLodGenerator_d.lib;OgreSceneFormat_d.lib;lua54.lib;tinyxml.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Bin\$(Platform)\$(Configuration)\;$(SolutionDir)\..\SDKs\cppcoro\build\windows_x64_msvc15_debug\lib;$(SolutionDir)\..\SDKs\SDL2-2.0.18\lib\x64\;$(SolutionDir)\..\SDKs\Ogre\lib\Debug;$(SolutionDir)\..\SDKs\lua\lib\;$(WindowsSDK_LibPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);SDL2.lib;OgreMain_d.lib;RenderSystem_Direct3D11_d.lib;OgreHlmsPbs_d.lib;OgreHlmsUnlit_d.lib;OgreMeshLodGenerator_d.lib;OgreSceneFormat_d.lib;lua54.lib;tinyxml.lib;WSock32.Lib;synchronization.lib</AdditionalDependencies>
       <PerUserRedirection>true</PerUserRedirection>
     </Link>
     <ProjectReference>
@@ -160,16 +160,33 @@
     <ClInclude Include="..\SDKs\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\SDKs\imgui\imstb_textedit.h" />
     <ClInclude Include="..\SDKs\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\SDKs\json\include\nlohmann\json.hpp" />
     <ClInclude Include="Editor\Editor.h" />
     <ClInclude Include="Editor\Main.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SDKs\cppcoro\lib\async_auto_reset_event.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_manual_reset_event.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_mutex.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\auto_reset_event.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_registration.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_source.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_state.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_token.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\file.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\file_read_operation.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\file_write_operation.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\io_service.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\lightweight_manual_reset_event.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\readable_file.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\read_only_file.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\read_write_file.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\spin_mutex.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\spin_wait.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp" />
     <ClCompile Include="..\SDKs\cppcoro\lib\win32.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\writable_file.cpp" />
+    <ClCompile Include="..\SDKs\cppcoro\lib\write_only_file.cpp" />
     <ClCompile Include="..\SDKs\gl3w\src\gl3w.c" />
     <ClCompile Include="..\SDKs\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\SDKs\imgui\backends\imgui_impl_sdl.cpp" />

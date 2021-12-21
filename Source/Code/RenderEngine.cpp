@@ -43,7 +43,6 @@ RenderEngine::RenderEngine(ResourceManager* pResourceManager):
 	m_pRT->RC_SetupDefaultLight();
 
 	m_pRT->Start();
-	m_pJobSystem = new cppcoro::static_thread_pool(4);
 	m_bQuit.store(false);
 }
 
@@ -274,4 +273,20 @@ void RenderEngine::RT_SetupDefaultLight()
 	light->setPowerScale(Ogre::Math::PI); //Since we don't do HDR, counter the PBS' division by PI
 	light->setType(Ogre::Light::LT_DIRECTIONAL);
 	light->setDirection(Ogre::Vector3(-1, -1, -1).normalisedCopy());
+}
+
+void RenderEngine::Recreate() {
+	m_RenderNodes.clear();
+	m_pSceneManager->clearScene(true);
+
+	auto cameraIter = m_pSceneManager->getCameraIterator();
+	while (cameraIter.hasMoreElements()) {
+		m_pCamera = cameraIter.getNext();
+		m_pCamera->setPosition(Ogre::Vector3(0, 10, 35));
+		m_pCamera->lookAt(Ogre::Vector3(0, 0, 0));
+		m_pCamera->setNearClipDistance(0.2f);
+		m_pCamera->setFarClipDistance(1000.0f);
+		m_pCamera->setAutoAspectRatio(true);
+	}
+	RT_SetupDefaultLight();
 }

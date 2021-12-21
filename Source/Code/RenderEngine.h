@@ -19,7 +19,6 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
-#include <cppcoro/static_thread_pool.hpp>
 #include "MTQueue.hpp"
 
 struct UpdateInfo {
@@ -46,6 +45,7 @@ public:
 
 	RenderThread* GetRT() const { return m_pRT; }
 	void AddUpdate(RenderNode* pRenderNode, Ogre::Vector3 position, Ogre::Vector3 scale);
+	void Recreate();
 
 private:
 	bool SetOgreConfig();
@@ -72,7 +72,6 @@ private:
 
 	RenderThread* m_pRT;
 	ResourceManager* m_pResourceManager;
-	cppcoro::static_thread_pool* m_pJobSystem;
 
 	std::vector<RenderNode*> m_RenderNodes;
 	SDL_Window* m_SDL_Window;

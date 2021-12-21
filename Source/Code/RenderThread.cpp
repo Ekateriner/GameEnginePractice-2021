@@ -201,8 +201,6 @@ void RenderThread::SyncMainWithRender()
 	assert(!IsRenderThread());
 
 	WaitForRenderThreadSignal();
-
-	SignalRenderThread();
 }
 
 // Wait signal from main thread

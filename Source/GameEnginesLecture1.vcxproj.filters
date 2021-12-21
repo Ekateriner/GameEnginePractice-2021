@@ -96,6 +96,9 @@
     <ClInclude Include="Code\ECS\ecsLoad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\SDKs\json\include\nlohmann\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Game.cpp">
@@ -158,7 +161,52 @@
     <ClCompile Include="Code\ECS\ecsStatic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp">
+    <ClCompile Include="Code\ECS\ecsLoad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_auto_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_manual_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\async_mutex.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\auto_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_registration.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_source.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_state.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\cancellation_token.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\file.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\file_read_operation.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\file_write_operation.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\io_service.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\read_only_file.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\read_write_file.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\readable_file.cpp">
       <Filter>Resource Files\cppcoro</Filter>
     </ClCompile>
     <ClCompile Include="..\SDKs\cppcoro\lib\spin_mutex.cpp">
@@ -167,17 +215,20 @@
     <ClCompile Include="..\SDKs\cppcoro\lib\spin_wait.cpp">
       <Filter>Resource Files\cppcoro</Filter>
     </ClCompile>
-    <ClCompile Include="..\SDKs\cppcoro\lib\auto_reset_event.cpp">
+    <ClCompile Include="..\SDKs\cppcoro\lib\static_thread_pool.cpp">
       <Filter>Resource Files\cppcoro</Filter>
     </ClCompile>
     <ClCompile Include="..\SDKs\cppcoro\lib\win32.cpp">
       <Filter>Resource Files\cppcoro</Filter>
     </ClCompile>
-    <ClCompile Include="..\SDKs\cppcoro\lib\async_auto_reset_event.cpp">
+    <ClCompile Include="..\SDKs\cppcoro\lib\writable_file.cpp">
       <Filter>Resource Files\cppcoro</Filter>
     </ClCompile>
-    <ClCompile Include="Code\ECS\ecsLoad.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\SDKs\cppcoro\lib\write_only_file.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDKs\cppcoro\lib\lightweight_manual_reset_event.cpp">
+      <Filter>Resource Files\cppcoro</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
